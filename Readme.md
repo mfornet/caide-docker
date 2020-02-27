@@ -13,13 +13,15 @@ This tool is a wrapper of [caide](https://github.com/slycelote/caide) specifical
     docker build . -t caide-docker
     ```
 
-3. Subsequently you will need to invoke the python script `caide.py`. Optionally you can add it to your path.
+3. All interaction is done by the python script `caide.py`. To ease the execution add this script to the path with the command:
 
     ```bash
     sudo ln -s (pwd)/caide.py /usr/local/bin/caide-docker
     ```
 
-## Create submission
+You are ready to go. Use `caide-docker --help` to see the options.
+
+## Usage
 
 In the example folder try:
 
