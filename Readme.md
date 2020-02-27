@@ -13,17 +13,17 @@ This tool is a wrapper of [caide](https://github.com/slycelote/caide) specifical
     docker build . -t caide-docker
     ```
 
-3. All interaction is done by the python script `caide.py`. To ease the execution add this script to the path with the command:
+3. All interaction is done via the python script `caide.py`. To invoke this script use: `python3 /path/to/caide.py` or create an alias:
 
     ```bash
-    sudo ln -s (pwd)/caide.py /usr/local/bin/caide-docker
+    sudo ln -s $(pwd)/caide.py /usr/local/bin/caide-docker
     ```
 
 You are ready to go. Use `caide-docker --help` to see the options.
 
 ## Usage
 
-In the example folder try:
+In the `example` folder try:
 
 ```bash
 caide-docker solution.cpp -l library -o main.cpp
