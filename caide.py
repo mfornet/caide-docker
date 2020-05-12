@@ -7,6 +7,7 @@ from pathlib import Path
 from shutil import copy2, rmtree
 from subprocess import PIPE, Popen
 from tempfile import TemporaryDirectory
+from remove_comments import remove_comments
 
 
 def check_exists(docker_image):
@@ -17,21 +18,27 @@ def check_exists(docker_image):
         exit(proc.returncode)
 
     if docker_image not in proc.stdout.read().decode():
-        print(f"Image {docker_image} not found.")
+        print(f'Image {docker_image} not found.')
         exit(1)
+
+
+def remove_comment(code):
+    return remove_comments(code)
 
 
 def main():
     check_exists('caide-docker')
     parser = argparse.ArgumentParser(
-        "Caide-Docker", description="Inline c++ code from libraries in a single file.")
+        'Caide-Docker', description='Inline c++ code from libraries in a single file.')
 
     parser.add_argument(
-        'main_file', help="Path to the .cpp that contains the main function.")
+        'main_file', help='Path to the .cpp that contains the main function.')
     parser.add_argument('-l', '--libraries', default='',
-                        help="List of libraries to be used other than the std. Use comma (,) to separate several libraries.")
+                        help='List of libraries to be used other than the std. Use comma (,) to separate several libraries.')
     parser.add_argument('-o', '--output', default='',
-                        help="Name of file to store final submission. stdout is used by default.")
+                        help='Name of file to store final submission. stdout is used by default.')
+    parser.add_argument('-p', '--prune-comments', default='', action='store_true',
+                        help='Prune comments from source code.')
 
     args = parser.parse_args()
 
@@ -44,11 +51,11 @@ def main():
 
     copy2(main_file, join(target_folder, 'main.cpp'))
 
-    command = ["docker",
-               "run",
-               f"--volume={target_folder}:/home/io"] +\
-        [f"--volume={lib}:/home/cpplib" for lib in libraries] +\
-        ["caide-docker"]
+    command = ['docker',
+               'run',
+               f'--volume={target_folder}:/home/io'] +\
+        [f'--volume={lib}:/home/cpplib' for lib in libraries] +\
+        ['caide-docker']
 
     proc = Popen(command)
     proc.wait()
@@ -61,6 +68,12 @@ def main():
             print(f.read(), file=sys.stderr)
 
     if out.exists():
+        with open(out) as f:
+            content = f.read()
+
+        if args.prune_comments:
+            content = remove_comment(content)
+
         file = sys.stdout
         should_close = False
 
@@ -68,8 +81,7 @@ def main():
             file = open(args.output, 'w')
             should_close = True
 
-        with open(out) as f:
-            print(f.read(), file=file)
+        print(content, file=file)
 
         if should_close:
             file.close()
