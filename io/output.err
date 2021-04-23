@@ -1,0 +1,7 @@
+In file included from /home/caide-tmp/concat.cpp:1:
+/home/lib/asl.hpp:2:10: fatal error: 'algorithm' file not found
+#include <algorithm>
+         ^~~~~~~~~~~
+1 error generated.
+Error while processing /home/caide-tmp/concat.cpp.
+Compilation error

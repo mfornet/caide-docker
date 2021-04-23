@@ -1,4 +1,4 @@
 #!/bin/bash
-cp io/main.cpp basic/main.cpp
-./caide make 2> io/output.err
-cp submission.cpp io
+cp io/main.cpp .
+./cmd -I /home/lib -- main.cpp 2> io/output.err
+cp caide-tmp/result.cpp io

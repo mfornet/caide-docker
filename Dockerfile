@@ -1,11 +1,7 @@
 FROM ubuntu
-COPY caide /home/caide
+COPY cmd /home/cmd
 COPY run.sh /home/run.sh
 WORKDIR /home
-RUN ./caide init
-COPY caide.ini caide.ini
-RUN ./caide problem basic
-RUN mkdir io
+RUN mkdir caide-tmp
 RUN chmod +x run.sh
-RUN echo "" > basic/basic.cpp
 ENTRYPOINT ./run.sh
