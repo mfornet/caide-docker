@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM --platform=linux/amd64 ubuntu
 COPY caide /home/caide
 COPY run.sh /home/run.sh
 WORKDIR /home
